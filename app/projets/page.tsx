@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 type Project = {
     _id: string;
@@ -21,9 +22,10 @@ export default async function ProjetsPage() {
 
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                 {projects.map((project) => (
-                    <div
+                    <Link
                         key={project._id}
-                        className="border rounded-xl overflow-hidden shadow-md bg-white dark:bg-zinc-800"
+                        href={`/projets/${project.slug}`}
+                        className="border rounded-xl overflow-hidden shadow-md bg-white dark:bg-zinc-800 hover:scale-[1.02] transition cursor-pointer"
                     >
                         <Image
                             src={project.image}
@@ -43,7 +45,7 @@ export default async function ProjetsPage() {
                                 {project.category}
                             </span>
                         </div>
-                    </div>
+                    </Link>
                 ))}
             </div>
         </main>
