@@ -1,40 +1,37 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
-const Header = () => {
+const navLinks = [
+    { href: "/", label: "Accueil" },
+    { href: "/projets", label: "Projets" },
+    { href: "/contact", label: "Contact" },
+];
+
+export default function Header() {
+    const pathname = usePathname();
+
     return (
-        <header className="flex justify-between items-center px-6 py-4 border-b border-gray-200">
-            <Link href="/" className="text-primary text-xl font-bold">
-                Kinepso
+        <header className="flex items-center justify-between px-6 py-4 border-b border-gray-200 dark:border-zinc-700">
+            <Link href="/" className="text-2xl font-bold text-blue-600">
+                Kynepso
             </Link>
-            <nav>
-                <ul className="flex gap-6 text-sm">
-                    <li>
-                        <Link
-                            href="/projets"
-                            className="text-gray-700 hover:text-primary"
-                        >
-                            Projets
-                        </Link>
-                    </li>
-                    <li>
-                        <Link
-                            href="/contact"
-                            className="text-gray-700 hover:text-primary"
-                        >
-                            Contact
-                        </Link>
-                    </li>
-                    <li>
-                        <button className="border border-primary text-primary px-4 py-1 rounded hover:bg-primary hover:text-white transition">
-                            Connexion
-                        </button>
-                    </li>
-                </ul>
+            <nav className="flex gap-6 text-sm">
+                {navLinks.map((link) => (
+                    <Link
+                        key={link.href}
+                        href={link.href}
+                        className={`hover:text-blue-600 transition ${
+                            pathname === link.href
+                                ? "text-blue-600 font-semibold"
+                                : "text-gray-600 dark:text-gray-300"
+                        }`}
+                    >
+                        {link.label}
+                    </Link>
+                ))}
             </nav>
         </header>
     );
-};
-
-export default Header;
+}

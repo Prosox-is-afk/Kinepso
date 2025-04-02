@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-    title: "Kinepso",
+    title: "Kynepso",
     description: "Gérez vos projets simplement et efficacement.",
 };
 
