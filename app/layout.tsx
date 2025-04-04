@@ -27,11 +27,21 @@ export default function RootLayout({
     return (
         <html lang="fr" suppressHydrationWarning>
             <body
-                className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col justify-between bg-zinc-50 text-zinc-900`}
+                className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen bg-zinc-50 text-zinc-900`}
             >
-                <Header />
-                <main className="flex-grow">{children}</main>
-                <Footer />
+                <div
+                    id="app"
+                    className="flex flex-col justify-between min-h-screen transition duration-300"
+                >
+                    <Header />
+                    <div
+                        id="page-content"
+                        className="flex flex-col justify-between min-h-screen transition duration-300"
+                    >
+                        <main className="flex-grow">{children}</main>
+                        <Footer />
+                    </div>
+                </div>
             </body>
         </html>
     );
