@@ -117,38 +117,59 @@ export default async function Home() {
                 </div>
             </section>
 
-            <section className="mt-20 px-4 max-w-5xl mx-auto text-center">
-                <h2
-                    className="text-2xl sm:text-3xl font-bold mb-8"
-                    style={{ color: "#014690" }}
-                >
+            <section className="relative z-10 px-6 py-24 max-w-7xl mx-auto text-center overflow-hidden">
+                {/* HALO + VAGUE DE FOND */}
+                <div className="absolute -top-20 left-1/2 -translate-x-1/2 w-[1200px] h-[800px] bg-[radial-gradient(circle_at_center,rgba(52,132,218,0.2),transparent_70%)] blur-3xl opacity-70 -z-10"></div>
+
+                <h2 className="text-3xl sm:text-4xl font-bold mb-16 text-[#014690]">
                     Nos derniers projets
                 </h2>
+                <p className="text-gray-600 mb-16 max-w-2xl mx-auto text-base">
+                    Voici un aperçu de nos récentes créations. Sites web, apps
+                    et solutions métiers sur-mesure.
+                </p>
 
-                <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8 text-left">
+                {/* GRILLE DES PROJETS */}
+                <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-12">
                     {projects.map((project) => (
                         <a
                             key={project._id}
                             href={`/projets/${project.slug}`}
-                            className="block border border-gray-200 dark:border-zinc-700 rounded-xl overflow-hidden shadow hover:shadow-lg transition bg-white dark:bg-zinc-800"
+                            className="group relative bg-white rounded-3xl p-4 pb-6 shadow-xl border border-zinc-100 hover:shadow-[0_20px_40px_rgba(52,132,218,0.15)] hover:-translate-y-2 transition-all duration-500 ease-out"
                         >
-                            <Image
-                                src={project.image}
-                                alt={project.title}
-                                width={400}
-                                height={250}
-                                className="w-full h-48 object-cover"
-                            />
-                            <div className="p-4">
-                                <h3 className="text-lg font-semibold text-[#3484DA] mb-1">
-                                    {project.title}
-                                </h3>
-                                <p className="text-sm text-gray-700 dark:text-gray-300">
-                                    {project.description}
-                                </p>
+                            {/* IMAGE */}
+                            <div className="overflow-hidden rounded-2xl h-48 mb-4">
+                                <Image
+                                    src={project.image}
+                                    alt={project.title}
+                                    width={500}
+                                    height={300}
+                                    className="w-full h-full object-cover rounded-2xl group-hover:scale-105 transition-transform duration-500"
+                                />
                             </div>
+
+                            {/* CONTENU */}
+                            <h3 className="text-lg font-semibold text-[#3484DA] mb-1">
+                                {project.title}
+                            </h3>
+                            <p className="text-gray-600 text-sm leading-relaxed">
+                                {project.description}
+                            </p>
+
+                            {/* GLOW EN HOVER */}
+                            <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-blue-100 via-transparent to-transparent opacity-0 group-hover:opacity-100 blur-2xl transition-all duration-500 z-[-1]" />
                         </a>
                     ))}
+                </div>
+
+                {/* CTA */}
+                <div className="mt-20">
+                    <a
+                        href="/projets"
+                        className="inline-block bg-[#3484DA] text-white px-8 py-3 rounded-full text-lg font-semibold shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300"
+                    >
+                        Voir tous nos projets
+                    </a>
                 </div>
             </section>
         </main>
