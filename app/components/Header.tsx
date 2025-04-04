@@ -7,47 +7,53 @@ import { usePathname } from "next/navigation";
 const navLinks = [
     { href: "/", label: "Accueil" },
     { href: "/projets", label: "Projets" },
-    { href: "/contact", label: "Contact" },
+    { href: "/services", label: "Services" },
 ];
 
 export default function Header() {
+    const pathname = usePathname();
+
+    const isActive = (href: string) =>
+        pathname === href
+            ? "text-[#3484DA] font-semibold"
+            : "text-zinc-600 hover:text-[#5ca0e4] transition";
+
     return (
-        <header className="sticky top-0 z-50 w-full bg-white shadow-sm">
+        <header className="sticky top-0 z-50 backdrop-blur-md bg-white/80 border-b border-zinc-200">
             <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
                 {/* Logo + Titre */}
-                <Link href="/" className="flex items-center gap-2">
+                <Link href="/" className="flex items-center gap-1">
                     <Image
                         src="/white_transparent.svg"
                         alt="Logo Kinepso"
                         width={32}
                         height={32}
-                        className="object-contain"
+                        className="object-contain mt-[2px]"
+                        style={{
+                            filter: "brightness(0) saturate(100%) invert(30%) sepia(76%) saturate(2328%) hue-rotate(188deg) brightness(95%) contrast(96%)",
+                        }}
                     />
                     <span
                         className="text-xl font-bold leading-none"
-                        style={{ fontFamily: "Arial", color: "#014690" }}
+                        style={{ fontFamily: "Arial", color: "#3484DA" }}
                     >
                         Kinepso
                     </span>
                 </Link>
 
                 {/* Navigation */}
-                <nav className="hidden gap-6 text-sm font-medium text-gray-700 sm:flex">
-                    <Link href="/" className="hover:text-blue-600">
-                        Accueil
-                    </Link>
-                    <Link href="/services" className="hover:text-blue-600">
-                        Services
-                    </Link>
-                    <Link href="/projets" className="hover:text-blue-600">
-                        Projets
-                    </Link>
+                <nav className="hidden gap-6 text-sm font-medium sm:flex">
+                    {navLinks.map(({ href, label }) => (
+                        <Link key={href} href={href} className={isActive(href)}>
+                            {label}
+                        </Link>
+                    ))}
                 </nav>
 
                 {/* Bouton Contact */}
                 <Link
                     href="/contact"
-                    className="rounded-full bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700 transition"
+                    className="rounded-full bg-[#3484DA] px-4 py-2 text-sm font-semibold text-white hover:bg-[#2772c4] transition"
                 >
                     Contact
                 </Link>
