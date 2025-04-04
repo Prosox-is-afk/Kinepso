@@ -32,3 +32,56 @@ body {
 .animate-fade-in {
     animation: fade-in 0.8s ease-out both;
 }
+
+@keyframes orbit {
+    0% {
+        top: -6px;
+        left: 50%;
+        transform: translateX(-50%) rotate(0deg);
+    }
+    25% {
+        top: 50%;
+        left: 106%;
+        transform: translateY(-50%) rotate(90deg);
+    }
+    50% {
+        top: 106%;
+        left: 50%;
+        transform: translateX(-50%) rotate(180deg);
+    }
+    75% {
+        top: 50%;
+        left: -6px;
+        transform: translateY(-50%) rotate(270deg);
+    }
+    100% {
+        top: -6px;
+        left: 50%;
+        transform: translateX(-50%) rotate(360deg);
+    }
+}
+
+.animate-orbit {
+    animation: orbit 6s linear infinite;
+}
+
+.shadow-md {
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+.hover\:shadow-xl:hover {
+    box-shadow: 0 16px 32px rgba(0, 0, 0, 0.12);
+}
+
+@keyframes spin-slow {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.animate-spin-slow {
+    animation: spin-slow 8s linear infinite;
+}
