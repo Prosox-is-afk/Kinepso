@@ -16,6 +16,7 @@ export default function Header() {
     const pathname = usePathname();
     const [menuOpen, setMenuOpen] = useState(false);
     const menuRef = useRef<HTMLDivElement>(null);
+    const [isScrolled, setIsScrolled] = useState(false);
 
     const isActive = (href: string) =>
         pathname === href
@@ -45,6 +46,15 @@ export default function Header() {
             document.removeEventListener("mousedown", handleClickOutside);
         };
     }, [menuOpen]);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            setIsScrolled(window.scrollY > 10);
+        };
+
+        window.addEventListener("scroll", handleScroll);
+        return () => window.removeEventListener("scroll", handleScroll);
+    }, []);
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
@@ -88,7 +98,13 @@ export default function Header() {
     }, [menuOpen]);
 
     return (
-        <header className="sticky top-0 z-50 bg-white border-b border-zinc-200">
+        <header
+            className={`sticky top-0 z-50 transition-all duration-300 ${
+                isScrolled
+                    ? "backdrop-blur-md bg-white/70 border-b border-zinc-200 shadow-sm"
+                    : "bg-transparent"
+            }`}
+        >
             <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
                 {/* Logo + Titre */}
                 <Link href="/" className="flex items-center gap-1">

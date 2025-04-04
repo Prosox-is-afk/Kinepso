@@ -21,8 +21,14 @@ export default async function Home() {
     const projects = await getProjects();
 
     return (
-        <main className="px-6 py-16">
-            <section className="flex flex-col items-center text-center gap-6 max-w-3xl mx-auto">
+        <main className="px-6">
+            <section className="flex flex-col items-center text-center gap-6 max-w-3xl mx-auto min-h-[calc(100vh-64px)] justify-center">
+                {/* HALO */}
+                <div className="animate-fade-in">
+                    <div className="absolute inset-0 -z-10 flex items-center justify-center bg-[radial-gradient(circle,rgba(52,132,218,0.15)_0%,transparent_70%)]">
+                        <div className="w-[600px] h-[600px] rounded-full bg-blue-300 opacity-30 blur-[100px]" />
+                    </div>
+                </div>
                 <h1
                     className="text-4xl sm:text-5xl font-bold leading-tight"
                     style={{ color: "#014690" }}
