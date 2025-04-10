@@ -1,26 +1,9 @@
-import { connectToDatabase } from "@/lib/db";
-import { NextRequest, NextResponse } from "next/server";
-import Project from "@/models/Project";
+import { prisma } from "@/lib/prisma";
+import { NextResponse } from "next/server";
 
-// GET → Lire tous les projets
 export async function GET() {
-    await connectToDatabase();
-    const projects = await Project.find();
+    const projects = await prisma.projet.findMany({
+        orderBy: { id: "asc" },
+    });
     return NextResponse.json(projects);
-}
-
-// POST → Créer un projet
-export async function POST(req: NextRequest) {
-    await connectToDatabase();
-    const body = await req.json();
-
-    try {
-        const project = await Project.create(body);
-        return NextResponse.json(project, { status: 201 });
-    } catch (error) {
-        return NextResponse.json(
-            { message: "Erreur création projet", error },
-            { status: 500 }
-        );
-    }
 }

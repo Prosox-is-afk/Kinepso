@@ -1,53 +1,120 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 
 type Project = {
-    _id: string;
+    id: number;
     title: string;
     description: string;
-    image: string;
-    slug: string;
     category: string;
+    slug: string;
+    image: string;
 };
 
-export default async function ProjetsPage() {
-    const res = await fetch("http://localhost:3000/api/projects", {
-        cache: "no-store",
-    });
-    const projects: Project[] = await res.json();
+const CATEGORIES = [
+    "Tous",
+    "Sites internet",
+    "Applications mobiles",
+    "Logiciels sur mesure",
+];
+
+export default function ProjectsPage() {
+    const searchParams = useSearchParams();
+    const router = useRouter();
+    const selectedCategory = searchParams.get("category") || "Tous";
+
+    const [projects, setProjects] = useState<Project[]>([]);
+    const [visibleCount, setVisibleCount] = useState(6);
+
+    useEffect(() => {
+        async function fetchProjects() {
+            const res = await fetch("/api/projects");
+            const data = await res.json();
+            const filtered =
+                selectedCategory === "Tous"
+                    ? data
+                    : data.filter(
+                          (p: Project) => p.category === selectedCategory
+                      );
+
+            setProjects(filtered);
+            setVisibleCount(6); // reset si changement de catégorie
+        }
+
+        fetchProjects();
+    }, [selectedCategory]);
+
+    const visibleProjects = projects.slice(0, visibleCount);
+    const hasMore = visibleCount < projects.length;
+
+    const handleCategoryClick = (cat: string) => {
+        router.push(`/projets?category=${encodeURIComponent(cat)}`);
+    };
 
     return (
-        <main className="p-8">
-            <h1 className="text-3xl font-bold mb-6">Nos projets</h1>
+        <main className="px-6 max-w-6xl mx-auto py-24 text-center">
+            <h1 className="text-4xl font-bold mb-12 text-[#014690]">
+                Tous nos projets
+            </h1>
 
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                {projects.map((project) => (
+            {/* Filtres */}
+            <div className="flex flex-wrap justify-center gap-3 mb-12">
+                {CATEGORIES.map((cat) => (
+                    <button
+                        key={cat}
+                        onClick={() => handleCategoryClick(cat)}
+                        className={`px-4 py-2 rounded-full border transition ${
+                            selectedCategory === cat
+                                ? "bg-[#3484DA] text-white border-[#3484DA]"
+                                : "text-gray-700 border-gray-300 hover:bg-gray-100"
+                        }`}
+                    >
+                        {cat}
+                    </button>
+                ))}
+            </div>
+
+            {/* Grille des projets */}
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-10">
+                {visibleProjects.map((project) => (
                     <Link
-                        key={project._id}
+                        key={project.id}
                         href={`/projets/${project.slug}`}
-                        className="border rounded-xl overflow-hidden shadow-md bg-white dark:bg-zinc-800 hover:scale-[1.02] transition cursor-pointer"
+                        className="group bg-white rounded-3xl shadow hover:shadow-xl transition-all duration-300 overflow-hidden border border-zinc-200"
                     >
                         <Image
                             src={project.image}
                             alt={project.title}
-                            width={400}
-                            height={250}
-                            className="w-full h-48 object-cover"
+                            width={500}
+                            height={300}
+                            className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
                         />
-                        <div className="p-4 space-y-2">
-                            <h2 className="text-xl font-semibold">
+                        <div className="p-5 text-left">
+                            <h3 className="text-lg font-semibold text-[#3484DA]">
                                 {project.title}
-                            </h2>
-                            <p className="text-sm text-gray-600 dark:text-gray-300">
+                            </h3>
+                            <p className="text-sm text-gray-600 mt-1">
                                 {project.description}
                             </p>
-                            <span className="inline-block text-xs text-white bg-blue-600 px-2 py-1 rounded">
-                                {project.category}
-                            </span>
                         </div>
                     </Link>
                 ))}
             </div>
+
+            {/* Bouton Voir plus */}
+            {hasMore && (
+                <div className="mt-12">
+                    <button
+                        onClick={() => setVisibleCount((prev) => prev + 6)}
+                        className="bg-[#3484DA] text-white px-6 py-3 rounded-full font-semibold hover:scale-105 shadow hover:shadow-lg transition"
+                    >
+                        Voir plus
+                    </button>
+                </div>
+            )}
         </main>
     );
 }
