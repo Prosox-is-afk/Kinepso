@@ -16,8 +16,22 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-    title: "Kynepso",
-    description: "Gérez vos projets simplement et efficacement.",
+    title: "Kinepso | Agence digitale",
+    description:
+        "Kinepso transforme vos idées en projets digitaux concrets : site vitrine, application mobile ou solution métier sur-mesure.",
+    keywords: [
+        "Kinepso",
+        "agence digitale",
+        "développement web",
+        "site vitrine",
+        "application mobile",
+    ],
+    openGraph: {
+        title: "Kinepso",
+        description:
+            "Agence digitale spécialisée dans la création de projets sur-mesure.",
+        type: "website",
+    },
 };
 
 export default function RootLayout({
@@ -27,6 +41,9 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="fr" suppressHydrationWarning>
+            <head>
+                <link rel="icon" href="/white_transparent.svg" />
+            </head>
             <body
                 className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen bg-zinc-50 text-zinc-900`}
             >
