@@ -5,6 +5,10 @@
     --foreground: #171717;
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
 /* @theme inline {
     --color-background: var(--background);
     --color-foreground: var(--foreground);
@@ -84,4 +88,9 @@ body {
 
 .animate-spin-slow {
     animation: spin-slow 8s linear infinite;
+}
+
+.hero-section {
+    width: 100vw !important;
+    max-width: none !important;
 }
