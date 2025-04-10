@@ -66,7 +66,7 @@ export default function ProjectsPage() {
                     <button
                         key={cat}
                         onClick={() => handleCategoryClick(cat)}
-                        className={`px-4 py-2 rounded-full border transition ${
+                        className={`px-4 py-2 rounded-full border transition cursor-pointer ${
                             selectedCategory === cat
                                 ? "bg-[#3484DA] text-white border-[#3484DA]"
                                 : "text-gray-700 border-gray-300 hover:bg-gray-100"
@@ -109,7 +109,7 @@ export default function ProjectsPage() {
                 <div className="mt-12">
                     <button
                         onClick={() => setVisibleCount((prev) => prev + 6)}
-                        className="bg-[#3484DA] text-white px-6 py-3 rounded-full font-semibold hover:scale-105 shadow hover:shadow-lg transition"
+                        className="bg-[#3484DA] text-white px-6 py-3 rounded-full font-semibold hover:scale-105 shadow hover:shadow-lg transition cursor-pointer"
                     >
                         Voir plus
                     </button>

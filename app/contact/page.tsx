@@ -1,10 +1,16 @@
+// app/contact/page.tsx
 "use client";
 
 import { useState } from "react";
 
 export default function ContactPage() {
-    const [form, setForm] = useState({ name: "", email: "", message: "" });
-    const [status, setStatus] = useState("");
+    const [form, setForm] = useState({
+        nom: "",
+        prenom: "",
+        email: "",
+        telephone: "",
+        message: "",
+    });
 
     const handleChange = (
         e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -12,67 +18,106 @@ export default function ContactPage() {
         setForm({ ...form, [e.target.name]: e.target.value });
     };
 
-    const handleSubmit = async (e: React.FormEvent) => {
+    const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        setStatus("Envoi en cours...");
-
-        try {
-            const res = await fetch("/api/contact", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(form),
-            });
-
-            if (res.ok) {
-                setStatus("Message envoyé !");
-                setForm({ name: "", email: "", message: "" });
-            } else {
-                setStatus("Erreur lors de l'envoi.");
-            }
-        } catch (error) {
-            setStatus("Erreur réseau.");
-        }
+        // Traite les données ici (ex: envoie via API)
+        alert("Formulaire soumis !");
     };
 
     return (
-        <main className="p-8 max-w-xl mx-auto">
-            <h1 className="text-3xl font-bold mb-6">Contact</h1>
-            <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-                <input
-                    type="text"
-                    name="name"
-                    placeholder="Votre nom"
-                    value={form.name}
-                    onChange={handleChange}
-                    required
-                    className="border px-4 py-2 rounded"
-                />
-                <input
-                    type="email"
-                    name="email"
-                    placeholder="Votre email"
-                    value={form.email}
-                    onChange={handleChange}
-                    required
-                    className="border px-4 py-2 rounded"
-                />
-                <textarea
-                    name="message"
-                    placeholder="Votre message"
-                    value={form.message}
-                    onChange={handleChange}
-                    required
-                    rows={5}
-                    className="border px-4 py-2 rounded"
-                />
-                <button
-                    type="submit"
-                    className="bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition"
-                >
-                    Envoyer
-                </button>
-                <p>{status}</p>
-            </form>
+        <main className="min-h-screen flex flex-col justify-center items-center bg-white text-[#014690] px-6 py-20">
+            <div className="w-full max-w-6xl grid md:grid-cols-2 gap-12">
+                {/* INFOS DE L'AGENCE */}
+                <div className="space-y-6">
+                    <h2 className="text-3xl font-bold mb-4 text-[#014690]">
+                        Contactez-nous
+                    </h2>
+                    <p className="text-gray-600">
+                        Notre équipe est à votre disposition pour toute demande
+                        de projet ou question.
+                    </p>
+                    <div className="space-y-4 text-gray-700">
+                        <div>
+                            <span className="font-semibold text-[#3484DA]">
+                                Adresse :
+                            </span>
+                            <br />
+                            123 rue du Code, 13000 Marseille, France
+                        </div>
+                        <div>
+                            <span className="font-semibold text-[#3484DA]">
+                                Téléphone :
+                            </span>
+                            <br />
+                            +33 6 12 34 56 78
+                        </div>
+                        <div>
+                            <span className="font-semibold text-[#3484DA]">
+                                Email :
+                            </span>
+                            <br />
+                            contact@kinepso.fr
+                        </div>
+                    </div>
+                </div>
+
+                {/* FORMULAIRE DE CONTACT */}
+                <form onSubmit={handleSubmit} className="space-y-6">
+                    <div className="grid sm:grid-cols-2 gap-4">
+                        <input
+                            type="text"
+                            name="nom"
+                            required
+                            placeholder="Nom"
+                            value={form.nom}
+                            onChange={handleChange}
+                            className="border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#3484DA]"
+                        />
+                        <input
+                            type="text"
+                            name="prenom"
+                            required
+                            placeholder="Prénom"
+                            value={form.prenom}
+                            onChange={handleChange}
+                            className="border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#3484DA]"
+                        />
+                    </div>
+                    <input
+                        type="email"
+                        name="email"
+                        required
+                        placeholder="Email"
+                        value={form.email}
+                        onChange={handleChange}
+                        className="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#3484DA]"
+                    />
+                    <input
+                        type="tel"
+                        name="telephone"
+                        required
+                        placeholder="Téléphone"
+                        value={form.telephone}
+                        onChange={handleChange}
+                        className="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#3484DA]"
+                    />
+                    <textarea
+                        name="message"
+                        required
+                        placeholder="Votre message"
+                        value={form.message}
+                        onChange={handleChange}
+                        rows={5}
+                        className="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#3484DA]"
+                    />
+                    <button
+                        type="submit"
+                        className="bg-[#3484DA] text-white px-6 py-3 rounded hover:bg-[#2e75c2] transition font-semibold cursor-pointer"
+                    >
+                        Contacter l'agence
+                    </button>
+                </form>
+            </div>
         </main>
     );
 }
