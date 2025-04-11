@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import FilteredProjects from "@/components/FilteredProjects";
 
 export default function ProjectsPage() {
@@ -6,7 +7,11 @@ export default function ProjectsPage() {
             <h1 className="text-4xl font-bold mb-12 text-[#014690]">
                 Tous nos projets
             </h1>
-            <FilteredProjects />
+
+            {/* Wrappé dans un Suspense */}
+            <Suspense fallback={<p>Chargement des projets...</p>}>
+                <FilteredProjects />
+            </Suspense>
         </main>
     );
 }
