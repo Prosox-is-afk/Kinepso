@@ -1,18 +1,23 @@
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import Image from "next/image";
+import type { Metadata } from "next";
 
-// ✅ Fonction attendue par Next.js pour le typage automatique (obligatoire si typage strict actif)
+// Fonction SEO dynamique avec typage propre
 export async function generateMetadata({
     params,
 }: {
-    params: { slug: string };
-}) {
+    params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+    const { slug } = await params;
+
     const project = await prisma.projet.findUnique({
-        where: { slug: params.slug },
+        where: { slug },
     });
 
-    if (!project) return { title: "Projet introuvable" };
+    if (!project) {
+        return { title: "Projet introuvable" };
+    }
 
     return {
         title: `${project.title} | Kinepso`,
@@ -20,13 +25,16 @@ export async function generateMetadata({
     };
 }
 
+// Composant principal de la page projet
 export default async function ProjectDetails({
     params,
 }: {
-    params: { slug: string };
+    params: Promise<{ slug: string }>;
 }) {
+    const { slug } = await params;
+
     const project = await prisma.projet.findUnique({
-        where: { slug: params.slug },
+        where: { slug },
     });
 
     if (!project) return notFound();
