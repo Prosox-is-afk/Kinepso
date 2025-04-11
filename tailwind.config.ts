@@ -5,7 +5,7 @@ const config: Config = {
     theme: {
         extend: {
             colors: {
-                primary: "#014690", // bleu (charte)
+                primary: "#014690", // bleu (titre)
                 secondary: "#F4F4F5", // gris très clair
                 dark: "#18181B", // noir doux
             },

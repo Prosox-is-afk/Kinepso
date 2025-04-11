@@ -74,7 +74,7 @@ export default function HomeProjects({ projects }: { projects: Project[] }) {
             <div className="mt-20">
                 <button
                     onClick={() => router.push("/projets")}
-                    className="inline-block bg-[#3484DA] text-white px-8 py-3 rounded-full text-lg font-semibold shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 cursor-pointer"
+                    className="inline-block bg-[#3484DA] text-white px-8 py-3 rounded-full text-lg font-medium shadow hover:bg-[#2e75c2] transition cursor-pointer"
                 >
                     Voir tous nos projets
                 </button>

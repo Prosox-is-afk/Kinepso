@@ -19,7 +19,7 @@ export default function Header() {
 
     const isActive = (href: string) =>
         pathname === href
-            ? "text-[#3484DA] font-semibold"
+            ? "text-[#014690] font-semibold"
             : "text-zinc-600 hover:text-[#5ea2eb] transition";
 
     useEffect(() => {
@@ -116,28 +116,33 @@ export default function Header() {
                     />
                     <span
                         className="text-xl font-bold leading-none"
-                        style={{ fontFamily: "Arial", color: "#3484DA" }}
+                        style={{ fontFamily: "Arial", color: "#014690" }}
                     >
                         Kinepso
                     </span>
                 </Link>
 
-                {/* Navigation - Desktop */}
-                <nav className="hidden sm:flex gap-6 text-sm font-medium">
-                    {navLinks.map(({ href, label }) => (
-                        <Link key={href} href={href} className={isActive(href)}>
-                            {label}
-                        </Link>
-                    ))}
-                </nav>
+                {/* Groupe navigation + bouton - Desktop */}
+                <div className="hidden sm:flex items-center gap-6">
+                    <nav className="flex gap-6 text-sm font-medium">
+                        {navLinks.map(({ href, label }) => (
+                            <Link
+                                key={href}
+                                href={href}
+                                className={isActive(href)}
+                            >
+                                {label}
+                            </Link>
+                        ))}
+                    </nav>
 
-                {/* Bouton Contact - Desktop */}
-                <Link
-                    href="/contact"
-                    className="hidden sm:inline-block rounded-full bg-[#3484DA] px-4 py-2 text-sm font-semibold text-white hover:bg-[#5ea2eb] transition"
-                >
-                    Contact
-                </Link>
+                    <Link
+                        href="/contact"
+                        className="rounded-full bg-[#3484DA] px-4 py-2 text-sm font-semibold text-white hover:bg-[#5ea2eb] transition"
+                    >
+                        Contact
+                    </Link>
+                </div>
 
                 {/* Menu Mobile Toggle */}
                 <button

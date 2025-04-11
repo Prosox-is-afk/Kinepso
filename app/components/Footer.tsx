@@ -15,7 +15,7 @@ export default function Footer() {
                         width={60}
                         height={60}
                     />
-                    <span className="text-[#3484DA] font-bold tracking-wide text-lg">
+                    <span className="text-[#014690] font-bold tracking-wide text-lg">
                         KINEPSO
                     </span>
                 </div>

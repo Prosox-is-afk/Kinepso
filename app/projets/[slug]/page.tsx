@@ -2,6 +2,24 @@ import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import Image from "next/image";
 
+// ✅ Fonction attendue par Next.js pour le typage automatique (obligatoire si typage strict actif)
+export async function generateMetadata({
+    params,
+}: {
+    params: { slug: string };
+}) {
+    const project = await prisma.projet.findUnique({
+        where: { slug: params.slug },
+    });
+
+    if (!project) return { title: "Projet introuvable" };
+
+    return {
+        title: `${project.title} | Kinepso`,
+        description: project.description,
+    };
+}
+
 export default async function ProjectDetails({
     params,
 }: {
@@ -15,7 +33,6 @@ export default async function ProjectDetails({
 
     return (
         <main className="bg-white min-h-screen pt-16 px-4 sm:px-8 max-w-5xl mx-auto">
-            {/* Bannière image + overlay */}
             <div className="relative rounded-2xl overflow-hidden shadow-lg mb-12 h-[300px] sm:h-[400px]">
                 <Image
                     src={project.image}
@@ -34,11 +51,8 @@ export default async function ProjectDetails({
                 </div>
             </div>
 
-            {/* Description */}
             <div className="text-[#474747] text-base sm:text-lg leading-relaxed space-y-6">
                 <p>{project.description}</p>
-
-                {/* Optionnel : ajouter des sections plus tard comme Objectifs, Stack utilisée, etc. */}
             </div>
         </main>
     );
