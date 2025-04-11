@@ -1,36 +1,133 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Kinepso – Projet vitrine avec base de données
 
-## Getting Started
+Ce projet est une application web construite avec **Next.js 15**, **TypeScript**, **Tailwind CSS** et **Prisma**. Il s'agit d'un site vitrine dynamique permettant de présenter des projets, avec filtrage par catégorie, pages dédiées, formulaire de contact, et plus encore.
 
-First, run the development server:
+## Fonctionnalités
+
+-   Filtrage des projets par catégorie (Sites, Apps, Logiciels)
+-   Pages dynamiques pour chaque projet via `slug`
+-   SEO dynamique (title + description)
+-   Design responsive moderne
+-   API interne pour récupérer les projets
+-   Formulaire de contact (structure prête, envoi d'email non configuré))
+
+## Technologies utilisées
+
+-   [Next.js 15](https://nextjs.org/) (App Router, Server Components)
+-   [TypeScript](https://www.typescriptlang.org/)
+-   [Tailwind CSS](https://tailwindcss.com/)
+-   [Prisma ORM](https://www.prisma.io/)
+-   [Lucide React](https://lucide.dev/)
+
+## Structure du projet
+
+```
+├── app/
+│   ├── api/               # Routes API (ex: /api/projects)
+│   ├── components/        # Composants React (client et server)
+│   ├── contact/           # Page de contact
+│   ├── projets/           # Page projets + slug dynamique
+│   ├── layout.tsx         # Layout principal
+│   └── page.tsx           # Page d'accueil
+├── prisma/                # Fichier schema.prisma et client
+├── public/                # Fichiers statiques (images, svg...)
+├── styles/ (fusionné dans app/globals.css)
+├── .env                   # Variables d'environnement (Prisma + config mail)
+├── tsconfig.json
+├── tailwind.config.ts
+├── next.config.ts
+├── postcss.config.mjs
+├── package.json
+└── README.md
+```
+
+## Modèle de données (Prisma)
+
+Voici le modèle utilisé dans `prisma/schema.prisma` :
+
+```
+model Projet {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String
+  category    String
+  slug        String   @unique
+  image       String
+  createdAt   DateTime @default(now())
+}
+```
+
+Pour initialiser la base :
+
+`npx prisma migrate dev --name init`
+
+> Note : la catégorie attendue est une chaîne parmi "Sites internet", "Applications mobiles", "Logiciels sur mesure". Le champ slug sert de clé pour générer les routes dynamiques /projets/[slug].
+
+## Installation
+
+1. Clonez le repo :
+
+```bash
+git clone https://github.com/Prosox-is-afk/Kinepso.git
+
+cd Kinepso
+```
+
+2. Installez les dépendances :
+
+```bash
+npm install
+```
+
+3. Configurez l'environnement :
+
+Créez un fichier `.env` à la racine du projet :
+
+```env
+DATABASE_URL="mysql://utilisateur:motdepasse@localhost:3306/nom_de_la_base"
+```
+
+4. Mettez en place la base de données :
+
+```bash
+npx prisma generate
+npx prisma migrate dev --name init
+```
+
+5. Lancez le projet en développement :
 
 ```bash
 npm run dev
-# orr
-yarn dev
-# or
-pnpm dev
-# orr
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+6. (Facultatif) Construisez le projet pour la production :
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm run build
+npm start
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Notes pour l’équipe technique
 
-## Learn More
+-   Le formulaire de contact n’envoie pas encore d’e-mails. Il faudra connecter un service ou autre pour que celà soit bien fonctionnel.
+-   Les pages dynamiques comme `[slug]` utilisent `generateMetadata()` pour fournir les meta dynamiquement côté serveur.
+-   Les SVG du logo sont en `fill` dur.
 
-To learn more about Next.js, take a look at the following resources:
+## Scripts disponibles
 
--   [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
--   [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+-   `npm run dev` – Lancement en mode développement
+-   `npm run build` – Build de production (nécessite que tout compile correctement)
+-   `npm start` – Lancement du serveur Node.js en production
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Déploiement
 
-## Deploy on Vercel
+L'application peut être déployée sur :
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+-   Vercel (config automatique)
+-   Serveur Node avec base de données MySQL (via Railway, PlanetScale, etc.)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Auteur
+
+Ce projet a été développé par un étudiant en BTS SIO passionné de développement web, dans le cadre d’un projet professionnel concret pour une agence.
+
+Pour en savoir plus sur l’auteur, rendez-vous sur [https://pierreburnier.dev](https://pierreburnier.dev)
