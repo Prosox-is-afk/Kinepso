@@ -3,15 +3,15 @@ import { prisma } from "@/lib/prisma";
 import Image from "next/image";
 import type { Metadata } from "next";
 
-// Fonction SEO dynamique avec typage propre
+// Fonction SEO dynamique
 export async function generateMetadata({
     params,
 }: {
-    params: Promise<{ slug: string }>;
+    params: { slug: string };
 }): Promise<Metadata> {
-    const { slug } = await params;
+    const { slug } = params;
 
-    const project = await prisma.projet.findUnique({
+    const project = await prisma.projets.findUnique({
         where: { slug },
     });
 
@@ -25,16 +25,19 @@ export async function generateMetadata({
     };
 }
 
-// Composant principal de la page projet
+// Composant principal
 export default async function ProjectDetails({
     params,
 }: {
-    params: Promise<{ slug: string }>;
+    params: { slug: string };
 }) {
-    const { slug } = await params;
+    const { slug } = params;
 
-    const project = await prisma.projet.findUnique({
+    const project = await prisma.projets.findUnique({
         where: { slug },
+        include: {
+            category: true,
+        },
     });
 
     if (!project) return notFound();
@@ -43,7 +46,7 @@ export default async function ProjectDetails({
         <main className="bg-white min-h-screen pt-16 px-4 sm:px-8 max-w-5xl mx-auto">
             <div className="relative rounded-2xl overflow-hidden shadow-lg mb-12 h-[300px] sm:h-[400px]">
                 <Image
-                    src={project.image}
+                    src={project.image_path}
                     alt={project.title}
                     fill
                     className="object-cover"
@@ -54,7 +57,7 @@ export default async function ProjectDetails({
                         {project.title}
                     </h1>
                     <p className="mt-2 inline-block bg-[#3484DA] text-white text-sm px-4 py-1 rounded-full shadow-sm">
-                        {project.category}
+                        {project.category.nom_categoriesprojets}
                     </p>
                 </div>
             </div>

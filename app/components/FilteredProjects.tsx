@@ -6,12 +6,14 @@ import Image from "next/image";
 import Link from "next/link";
 
 type Project = {
-    id: number;
+    id_projets: number;
     title: string;
     description: string;
-    category: string;
     slug: string;
-    image: string;
+    image_path: string;
+    category: {
+        nom_categoriesprojets: string;
+    };
 };
 
 const CATEGORIES = [
@@ -33,11 +35,14 @@ export default function FilteredProjects() {
         async function fetchProjects() {
             const res = await fetch("/api/projects");
             const data = await res.json();
+
             const filtered =
                 selectedCategory === "Tous"
                     ? data
                     : data.filter(
-                          (p: Project) => p.category === selectedCategory
+                          (p: Project) =>
+                              p.category.nom_categoriesprojets ===
+                              selectedCategory
                       );
 
             setProjects(filtered);
@@ -77,14 +82,14 @@ export default function FilteredProjects() {
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-10">
                 {visibleProjects.map((project) => (
                     <Link
-                        key={project.id}
+                        key={project.id_projets}
                         href={`/projets/${project.slug}`}
                         className="group border-1 border-[#014690] rounded-2xl overflow-hidden shadow hover:shadow-lg transition-all duration-300 cursor-pointer"
                     >
                         {/* IMAGE */}
                         <div className="h-48 overflow-hidden">
                             <Image
-                                src={project.image}
+                                src={project.image_path}
                                 alt={project.title}
                                 width={500}
                                 height={300}

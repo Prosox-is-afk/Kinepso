@@ -4,16 +4,19 @@ import ServicesSection from "@/components/ServicesSection";
 import HomeProjects from "@/components/HomeProjects";
 
 export default async function Home() {
-    const projects = await prisma.projet.findMany({
-        orderBy: { createdAt: "desc" },
+    const projects = await prisma.projets.findMany({
+        orderBy: { created_at: "desc" },
         take: 3,
+        include: {
+            category: true, // permet d'accéder au nom de la catégorie via project.category.nom_categoriesprojets
+        },
     });
 
     return (
         <main className="px-0">
             <section
                 className="relative flex flex-col items-center text-center gap-6 mx-auto min-h-[calc(100vh-64px)] justify-center bg-cover bg-center bg-no-repeat px-6 sm:px-0"
-                style={{ backgroundImage: "url('/bg-hero.png')" }}
+                style={{ backgroundImage: "url('/images/bg-hero.png')" }}
             >
                 {/* HALO */}
                 <div className="animate-fade-in">
@@ -29,42 +32,6 @@ export default async function Home() {
                     Concevons vos projets digitaux avec Kinepso
                 </h1>
 
-                {/* <div className="flex flex-col sm:flex-row items-center justify-center gap-4 text-[#474747]">
-                    <div className="flex items-center gap-2">
-                        <Image
-                            src="/icones/check.png"
-                            alt="check"
-                            width={20}
-                            height={20}
-                        />
-                        <span className="text-sm sm:text-base">
-                            Sites vitrines
-                        </span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                        <Image
-                            src="/icones/check.png"
-                            alt="check"
-                            width={20}
-                            height={20}
-                        />
-                        <span className="text-sm sm:text-base">
-                            Applications
-                        </span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                        <Image
-                            src="/icones/check.png"
-                            alt="check"
-                            width={20}
-                            height={20}
-                        />
-                        <span className="text-sm sm:text-base">
-                            Projets sur-mesure
-                        </span>
-                    </div>
-                </div> */}
-
                 <div className="flex flex-col items-start gap-4 text-[#474747]">
                     <div className="flex items-center gap-2">
                         <Image
@@ -72,7 +39,7 @@ export default async function Home() {
                             alt="check"
                             width={20}
                             height={20}
-                            className="mt-[2px]" // pour ajuster verticalement
+                            className="mt-[2px]"
                         />
                         <span className="text-sm sm:text-base">
                             Sites vitrines
@@ -122,6 +89,7 @@ export default async function Home() {
 
             <ServicesSection />
 
+            {/* ⚠️ Passage des projets au composant HomeProjects */}
             <HomeProjects projects={projects} />
 
             <section className="bg-[#F4F8FF] py-20 px-6 text-center">

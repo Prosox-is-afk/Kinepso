@@ -13,12 +13,20 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Projet {
-  id          Int     @id @default(autoincrement())
-  title       String
+model Projets {
+  id_projets  Int      @id @default(autoincrement())
+  title       String   @db.VarChar(50)
   description String
-  category    String
-  image       String
-  slug        String  @unique
-  createdAt   DateTime @default(now())
+  image_path  String   @db.VarChar(255)
+  slug        String   @unique
+  created_at  DateTime @default(now())
+  category_id Int
+  category    CategoryProjet @relation(fields: [category_id], references: [id_categoriesprojets])
 }
+
+model CategoryProjet {
+  id_categoriesprojets  Int      @id @default(autoincrement())
+  nom_categoriesprojets String   @db.VarChar(50)
+  projets               Projets[] // 1 catégorie → plusieurs projets
+}
+

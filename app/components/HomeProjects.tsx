@@ -5,12 +5,14 @@ import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 
 interface Project {
-    id: number;
+    id_projets: number;
     title: string;
     description: string;
-    category: string;
     slug: string;
-    image: string;
+    image_path: string;
+    category: {
+        nom_categoriesprojets: string;
+    };
 }
 
 export default function HomeProjects({ projects }: { projects: Project[] }) {
@@ -33,7 +35,7 @@ export default function HomeProjects({ projects }: { projects: Project[] }) {
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-12">
                 {projects.map((project, index) => (
                     <motion.div
-                        key={project.id}
+                        key={project.id_projets}
                         initial={{ opacity: 0, y: 40 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         transition={{
@@ -47,13 +49,15 @@ export default function HomeProjects({ projects }: { projects: Project[] }) {
                     >
                         {/* IMAGE */}
                         <div className="h-44 overflow-hidden">
-                            <Image
-                                src={project.image}
-                                alt={project.title}
-                                width={400}
-                                height={300}
-                                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                            />
+                            {project.image_path && (
+                                <Image
+                                    src={project.image_path}
+                                    alt={project.title}
+                                    width={400}
+                                    height={300}
+                                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                />
+                            )}
                         </div>
 
                         {/* CONTENU BLEU */}
@@ -75,7 +79,7 @@ export default function HomeProjects({ projects }: { projects: Project[] }) {
             <div className="mt-20">
                 <button
                     onClick={() => router.push("/projets")}
-                    className="inline-block bg-[#3484DA] text-white px-8 py-3 rounded-full text-lg font-medium shadow hover:bg-[#2e75c2] transition"
+                    className="inline-block bg-[#3484DA] text-white px-8 py-3 rounded-full text-lg font-medium shadow hover:bg-[#2e75c2] transition cursor-pointer"
                 >
                     Voir tous nos projets
                 </button>

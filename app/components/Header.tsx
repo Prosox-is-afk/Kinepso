@@ -160,7 +160,7 @@ export default function Header() {
                                 alt="Logo Kinepso"
                                 width={45}
                                 height={45}
-                                className="object-contain"
+                                className="translate-y-1"
                             />
                             <span
                                 className="text-xl font-bold"
