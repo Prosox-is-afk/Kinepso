@@ -1,23 +1,65 @@
 import { NextRequest, NextResponse } from "next/server";
+import nodemailer from "nodemailer";
 
 export async function POST(req: NextRequest) {
-    const body = await req.json();
-
-    const { name, email, message } = body;
-
-    if (!name || !email || !message) {
+    let body;
+    try {
+        body = await req.json();
+    } catch (error) {
         return NextResponse.json(
-            { success: false, message: "Champs manquants" },
+            { success: false, message: "Erreur de parsing JSON" },
             { status: 400 }
         );
     }
 
-    // Ici tu pourras plus tard envoyer l'email avec Nodemailer, Resend, etc.
+    const { nom, prenom, email, telephone, message } = body;
 
-    // console.log("Message reçu depuis le formulaire :", body);
+    if (!nom || !prenom || !email || !message) {
+        return NextResponse.json(
+            { success: false, message: "Champs requis manquants." },
+            { status: 400 }
+        );
+    }
 
-    return NextResponse.json({
-        success: true,
-        message: "Message reçu avec succès",
+    // ✅ Création du transporteur APRES les vérifications
+    const transporter = nodemailer.createTransport({
+        host: process.env.EMAIL_HOST,
+        port: Number(process.env.EMAIL_PORT),
+        secure: false,
+        auth: {
+            user: process.env.EMAIL_USER,
+            pass: process.env.EMAIL_PASS,
+        },
     });
+
+    try {
+        await transporter.sendMail({
+            from: `"Kinepso" <${process.env.EMAIL_USER}>`,
+            to: process.env.EMAIL_TO,
+            subject: "Nouveau message via le site Kinepso",
+            html: `
+                <h2>Nouveau message de ${prenom} ${nom}</h2>
+                <p><strong>Email :</strong> ${email}</p>
+                <p><strong>Téléphone :</strong> ${telephone}</p>
+                <p><strong>Message :</strong><br/>${message.replace(
+                    /\n/g,
+                    "<br/>"
+                )}</p>
+            `,
+        });
+
+        return NextResponse.json({
+            success: true,
+            message: "Message envoyé avec succès.",
+        });
+    } catch (error) {
+        console.error("Erreur envoi mail :", error);
+        return NextResponse.json(
+            {
+                success: false,
+                message: "Erreur lors de l'envoi du message.",
+            },
+            { status: 500 }
+        );
+    }
 }

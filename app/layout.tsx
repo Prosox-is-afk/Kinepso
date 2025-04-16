@@ -43,7 +43,6 @@ export default function RootLayout({
         <html lang="fr" className="scrollbar-hide" suppressHydrationWarning>
             <head>
                 <link rel="icon" href="/white_transparent.svg" />
-                <link rel="stylesheet" href="./globals.css" />
             </head>
             <body
                 className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen bg-zinc-50 text-zinc-900`}

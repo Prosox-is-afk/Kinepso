@@ -9,7 +9,7 @@ Ce projet est une application web construite avec **Next.js 15**, **TypeScript**
 -   SEO dynamique (title + description)
 -   Design responsive moderne
 -   API interne pour récupérer les projets
--   Formulaire de contact (structure prête, envoi d'email non configuré))
+-   Formulaire de contact (envoi d'email configurable)
 
 ## Technologies utilisées
 
@@ -85,7 +85,16 @@ Créez un fichier `.env` à la racine du projet :
 
 ```env
 DATABASE_URL="mysql://utilisateur:motdepasse@localhost:3306/nom_de_la_base"
+EMAIL_HOST=smtp.gmail.com
+EMAIL_PORT=587
+EMAIL_USER=adresse@gmail.com
+EMAIL_PASS=mot_de_passe_app
+EMAIL_TO=adresse_de_destination
 ```
+
+> Pour Gmail, créez un mot de passe d'application ici : https://myaccount.google.com/apppasswords
+
+> Pour outlook : `EMAIL_HOST=smtp.office365.com`
 
 4. Mettez en place la base de données :
 
@@ -109,7 +118,7 @@ npm start
 
 ## Notes pour l’équipe technique
 
--   Le formulaire de contact n’envoie pas encore d’e-mails. Il faudra connecter un service ou autre pour que celà soit bien fonctionnel.
+-   Le formulaire de contact est entièrement fonctionnel avec nodemailer et une API POST côté serveur (/api/contact).
 -   Les pages dynamiques comme `[slug]` utilisent `generateMetadata()` pour fournir les meta dynamiquement côté serveur.
 -   Les SVG du logo sont en `fill` dur.
 

@@ -1,7 +1,7 @@
-// app/contact/page.tsx
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 
 export default function ContactPage() {
     const [form, setForm] = useState({
@@ -11,6 +11,7 @@ export default function ContactPage() {
         telephone: "",
         message: "",
     });
+    const [success, setSuccess] = useState(false);
 
     const handleChange = (
         e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -18,16 +19,52 @@ export default function ContactPage() {
         setForm({ ...form, [e.target.name]: e.target.value });
     };
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        // Traite les données ici (ex: envoie via API)
-        alert("Formulaire soumis !");
+
+        const payload = {
+            nom: form.nom,
+            prenom: form.prenom,
+            email: form.email,
+            telephone: form.telephone,
+            message: form.message,
+        };
+
+        try {
+            const res = await fetch("/api/contact", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(payload),
+            });
+
+            const data = await res.json();
+
+            if (data.success) {
+                setSuccess(true);
+                setForm({
+                    nom: "",
+                    prenom: "",
+                    email: "",
+                    telephone: "",
+                    message: "",
+                });
+
+                // 🔄 Réinitialiser l'affichage après 4 secondes
+                setTimeout(() => {
+                    setSuccess(false);
+                }, 4000);
+            }
+        } catch (error) {
+            console.error("Erreur lors de l'envoi :", error);
+        }
     };
 
     return (
         <main className="min-h-screen flex flex-col justify-center items-center bg-white text-[#014690] px-6 py-20">
             <div className="w-full max-w-6xl grid md:grid-cols-2 gap-12">
-                {/* INFOS DE L'AGENCE */}
+                {/* INFOS AGENCE */}
                 <div className="space-y-6">
                     <h2 className="text-3xl font-bold mb-4 text-[#014690]">
                         Contactez-nous
@@ -54,7 +91,7 @@ export default function ContactPage() {
                     </div>
                 </div>
 
-                {/* FORMULAIRE DE CONTACT */}
+                {/* FORMULAIRE */}
                 <form onSubmit={handleSubmit} className="space-y-6">
                     <div className="grid sm:grid-cols-2 gap-4">
                         <input
@@ -103,6 +140,20 @@ export default function ContactPage() {
                         rows={5}
                         className="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#3484DA]"
                     />
+
+                    {/* Affichage du feedback */}
+                    {success && (
+                        <div className="flex items-center gap-2 text-green-600 font-medium">
+                            <Image
+                                src="/icones/check.png"
+                                alt="Check"
+                                width={24}
+                                height={24}
+                            />
+                            <p>Demande envoyée</p>
+                        </div>
+                    )}
+
                     <button
                         type="submit"
                         className="bg-[#3484DA] text-white px-6 py-3 rounded hover:bg-[#2e75c2] transition font-semibold cursor-pointer"
