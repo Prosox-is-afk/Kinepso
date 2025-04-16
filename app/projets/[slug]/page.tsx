@@ -3,16 +3,18 @@ import { prisma } from "@/lib/prisma";
 import Image from "next/image";
 import type { Metadata } from "next";
 
+// Typage recommandé pour les props dynamiques
+type Props = {
+    params: Promise<{ slug: string }>;
+};
+
 // Fonction SEO dynamique
-export async function generateMetadata({
-    params,
-}: {
-    params: { slug: string };
-}): Promise<Metadata> {
-    const { slug } = params;
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+    const { slug } = await params;
 
     const project = await prisma.projets.findUnique({
         where: { slug },
+        include: { category: true },
     });
 
     if (!project) {
@@ -25,19 +27,13 @@ export async function generateMetadata({
     };
 }
 
-// Composant principal
-export default async function ProjectDetails({
-    params,
-}: {
-    params: { slug: string };
-}) {
-    const { slug } = params;
+// Composant principal de la page projet
+export default async function ProjectDetails({ params }: Props) {
+    const { slug } = await params;
 
     const project = await prisma.projets.findUnique({
         where: { slug },
-        include: {
-            category: true,
-        },
+        include: { category: true },
     });
 
     if (!project) return notFound();
