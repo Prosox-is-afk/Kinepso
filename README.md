@@ -46,22 +46,30 @@ Ce projet est une application web construite avec **Next.js 15**, **TypeScript**
 Voici le modèle utilisé dans `prisma/schema.prisma` :
 
 ```
-model Projet {
-  id          Int      @id @default(autoincrement())
-  title       String
+model Projets {
+  id_projets  Int      @id @default(autoincrement())
+  title       String   @db.VarChar(50)
   description String
-  category    String
+  image_path  String   @db.VarChar(255)
   slug        String   @unique
-  image       String
-  createdAt   DateTime @default(now())
+  created_at  DateTime @default(now())
+  category_id Int
+  category    CategoryProjet @relation(fields: [category_id], references: [id_categoriesprojets])
 }
+
+model CategoryProjet {
+  id_categoriesprojets  Int      @id @default(autoincrement())
+  nom_categoriesprojets String   @db.VarChar(50)
+  projets               Projets[]
+}
+
 ```
+
+> Le champ category_id est une clé étrangère vers la table CategoryProjet. Les projets sont liés à une catégorie via une relation one-to-many
 
 Pour initialiser la base :
 
 `npx prisma migrate dev --name init`
-
-> Note : la catégorie attendue est une chaîne parmi "Sites internet", "Applications mobiles", "Logiciels sur mesure". Le champ slug sert de clé pour générer les routes dynamiques /projets/[slug].
 
 ## Installation
 
@@ -93,7 +101,6 @@ EMAIL_TO=adresse_de_destination
 ```
 
 > Pour Gmail, créez un mot de passe d'application ici : https://myaccount.google.com/apppasswords
-
 > Pour outlook : `EMAIL_HOST=smtp.office365.com`
 
 4. Mettez en place la base de données :
@@ -119,8 +126,20 @@ npm start
 ## Notes pour l’équipe technique
 
 -   Le formulaire de contact est entièrement fonctionnel avec nodemailer et une API POST côté serveur (/api/contact).
+-   Les images des projets sont stockées dans le dossier /public/images/projets. Dans la base de données, on ne stocke que le chemin relatif (/images/projets/nom-image.jpg).
 -   Les pages dynamiques comme `[slug]` utilisent `generateMetadata()` pour fournir les meta dynamiquement côté serveur.
 -   Les SVG du logo sont en `fill` dur.
+-   Le champ slug est une chaîne de texte unique utilisée pour créer des URLs lisibles et propres du type /projets/nom-du-projet. Il permet d'accéder dynamiquement à chaque projet via une page dédiée.
+    Dans Next.js, les routes dynamiques comme [slug].tsx dépendent de cette valeur pour récupérer le bon contenu depuis la base.
+    Plutôt que de générer le slug à la volée à chaque appel, on le stocke dans la base pour garantir :
+
+        une cohérence de l’URL même si le titre du projet change,
+
+        une recherche rapide par champ unique indexé (@unique),
+
+        une compatibilité optimale avec les fonctions comme generateMetadata() ou le getStaticPaths() (si tu utilises le SSG plus tard).
+
+Cela respecte également les bonnes pratiques SEO en gardant des URLs stables, courtes et descriptives.
 
 ## Scripts disponibles
 
