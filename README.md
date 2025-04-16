@@ -131,7 +131,7 @@ npm start
 -   Les SVG du logo sont en `fill` dur.
 -   Le champ slug est une chaîne de texte unique utilisée pour créer des URLs lisibles et propres du type /projets/nom-du-projet. Il permet d'accéder dynamiquement à chaque projet via une page dédiée.
     Dans Next.js, les routes dynamiques comme [slug].tsx dépendent de cette valeur pour récupérer le bon contenu depuis la base.
-    Plutôt que de générer le slug à la volée à chaque appel, on le stocke dans la base pour garantir : une cohérence de l’URL même si le titre du projet change, une recherche rapide par champ unique indexé (@unique), une compatibilité optimale avec les fonctions comme generateMetadata() ou le getStaticPaths() (si tu utilises le SSG plus tard).
+    Plutôt que de générer le slug à la volée à chaque appel, on le stocke dans la base pour garantir : une cohérence de l’URL même si le titre du projet change, une recherche rapide par champ unique indexé (@unique), une compatibilité optimale avec les fonctions comme generateMetadata() ou encore d'autres fonctions.
     Cela respecte également les bonnes pratiques SEO en gardant des URLs stables, courtes et descriptives.
 
 ## Scripts disponibles
