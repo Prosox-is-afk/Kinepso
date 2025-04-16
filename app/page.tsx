@@ -93,7 +93,7 @@ export default async function Home() {
             <HomeProjects projects={projects} />
 
             <section className="bg-[#F4F8FF] py-20 px-6 text-center">
-                <h2 className="text-2xl sm:text-3xl font-bold text-[#014690] mb-4">
+                <h2 className="text-3xl sm:text-4xl font-bold text-[#014690] mb-5">
                     Un projet en tête ?
                 </h2>
                 <p className="text-[#474747] text-base sm:text-lg max-w-2xl mx-auto mb-8">
