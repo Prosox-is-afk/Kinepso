@@ -39,24 +39,17 @@ export default function ContactPage() {
                     <div className="space-y-4 text-gray-700">
                         <div>
                             <span className="font-semibold text-[#3484DA]">
-                                Adresse :
-                            </span>
-                            <br />
-                            123 rue du Code, 13000 Marseille, France
-                        </div>
-                        <div>
-                            <span className="font-semibold text-[#3484DA]">
                                 Téléphone :
                             </span>
                             <br />
-                            +33 6 12 34 56 78
+                            +33 7 83 62 50 79
                         </div>
                         <div>
                             <span className="font-semibold text-[#3484DA]">
                                 Email :
                             </span>
                             <br />
-                            contact@kinepso.fr
+                            contact@kinepso.com
                         </div>
                     </div>
                 </div>
@@ -114,7 +107,7 @@ export default function ContactPage() {
                         type="submit"
                         className="bg-[#3484DA] text-white px-6 py-3 rounded hover:bg-[#2e75c2] transition font-semibold cursor-pointer"
                     >
-                        Contacter l'agence
+                        Contacter mon agence
                     </button>
                 </form>
             </div>

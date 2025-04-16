@@ -79,21 +79,28 @@ export default function FilteredProjects() {
                     <Link
                         key={project.id}
                         href={`/projets/${project.slug}`}
-                        className="group bg-white rounded-3xl shadow hover:shadow-xl transition-all duration-300 overflow-hidden border border-zinc-200"
+                        className="group border-1 border-[#014690] rounded-2xl overflow-hidden shadow hover:shadow-lg transition-all duration-300 cursor-pointer"
                     >
-                        <Image
-                            src={project.image}
-                            alt={project.title}
-                            width={500}
-                            height={300}
-                            className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
-                        />
-                        <div className="p-5 text-left">
-                            <h3 className="text-lg font-semibold text-[#3484DA]">
+                        {/* IMAGE */}
+                        <div className="h-48 overflow-hidden">
+                            <Image
+                                src={project.image}
+                                alt={project.title}
+                                width={500}
+                                height={300}
+                                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                            />
+                        </div>
+
+                        {/* CONTENU BLEU */}
+                        <div className="bg-[#014690] text-white text-center px-4 py-6 h-[120px] flex flex-col justify-center">
+                            <h3 className="text-base font-semibold mb-1">
                                 {project.title}
                             </h3>
-                            <p className="text-sm text-gray-600 mt-1">
-                                {project.description}
+                            <p className="text-sm opacity-90 leading-relaxed line-clamp-2">
+                                {project.description.length > 50
+                                    ? project.description.slice(0, 50) + "..."
+                                    : project.description}
                             </p>
                         </div>
                     </Link>

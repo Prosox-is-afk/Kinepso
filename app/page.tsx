@@ -26,21 +26,88 @@ export default async function Home() {
                     className="text-3xl sm:text-5xl font-bold leading-tight px-2 sm:px-0"
                     style={{ color: "#014690" }}
                 >
-                    Concevons vos projets digitaux dès maintenant
+                    Concevons vos projets digitaux avec Kinepso
                 </h1>
 
-                <p
-                    className="text-base sm:text-lg text-gray-700 dark:text-gray-300 max-w-xl px-4 sm:px-0"
-                    style={{ color: "#474747" }}
-                >
-                    Sites vitrines, applications ou solutions sur-mesure,
-                    Kinepso transforme vos idées en projets réels.
-                </p>
+                {/* <div className="flex flex-col sm:flex-row items-center justify-center gap-4 text-[#474747]">
+                    <div className="flex items-center gap-2">
+                        <Image
+                            src="/icones/check.png"
+                            alt="check"
+                            width={20}
+                            height={20}
+                        />
+                        <span className="text-sm sm:text-base">
+                            Sites vitrines
+                        </span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                        <Image
+                            src="/icones/check.png"
+                            alt="check"
+                            width={20}
+                            height={20}
+                        />
+                        <span className="text-sm sm:text-base">
+                            Applications
+                        </span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                        <Image
+                            src="/icones/check.png"
+                            alt="check"
+                            width={20}
+                            height={20}
+                        />
+                        <span className="text-sm sm:text-base">
+                            Projets sur-mesure
+                        </span>
+                    </div>
+                </div> */}
+
+                <div className="flex flex-col items-start gap-4 text-[#474747]">
+                    <div className="flex items-center gap-2">
+                        <Image
+                            src="/icones/check.png"
+                            alt="check"
+                            width={20}
+                            height={20}
+                            className="mt-[2px]" // pour ajuster verticalement
+                        />
+                        <span className="text-sm sm:text-base">
+                            Sites vitrines
+                        </span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                        <Image
+                            src="/icones/check.png"
+                            alt="check"
+                            width={20}
+                            height={20}
+                            className="mt-[2px]"
+                        />
+                        <span className="text-sm sm:text-base">
+                            Applications
+                        </span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                        <Image
+                            src="/icones/check.png"
+                            alt="check"
+                            width={20}
+                            height={20}
+                            className="mt-[2px]"
+                        />
+                        <span className="text-sm sm:text-base">
+                            Projets sur-mesure
+                        </span>
+                    </div>
+                </div>
 
                 <div className="flex flex-col sm:flex-row gap-4 mt-4">
                     <a
                         href="/projets"
-                        className="bg-[#3484DA] text-white px-6 py-3 rounded hover:bg-[#2e75c2] transition"
+                        className="border border-[#3484DA] text-[#3484DA] px-6 py-3 rounded hover:bg-[#3484DA] hover:text-white transition"
                     >
                         Découvrir nos projets
                     </a>
@@ -62,14 +129,14 @@ export default async function Home() {
                     Un projet en tête ?
                 </h2>
                 <p className="text-[#474747] text-base sm:text-lg max-w-2xl mx-auto mb-8">
-                    Discutons de vos idées et construisons ensemble des
-                    solutions digitales à votre image.
+                    Discutons de vos idées et construisons ensembles votre
+                    projet.
                 </p>
                 <a
                     href="/contact"
                     className="inline-block bg-[#3484DA] text-white px-8 py-3 rounded-full text-lg font-medium shadow hover:bg-[#2e75c2] transition"
                 >
-                    Contacter l'agence
+                    Contacter mon agence
                 </a>
             </section>
         </main>

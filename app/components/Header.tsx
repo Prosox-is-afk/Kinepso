@@ -97,25 +97,18 @@ export default function Header() {
     }, [menuOpen]);
 
     return (
-        <header
-            className={`sticky top-0 z-50 transition-all duration-300 ${
-                isScrolled
-                    ? "backdrop-blur-md bg-white/70 border-b border-zinc-200 shadow-sm"
-                    : "bg-transparent"
-            }`}
-        >
+        <header className="bg-white border-b border-zinc-200 shadow-sm z-50">
             <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
                 {/* Logo + Titre */}
                 <Link href="/" className="flex items-center gap-1">
                     <Image
                         src="/white_transparent.svg"
                         alt="Logo Kinepso"
-                        width={30}
-                        height={30}
-                        className="object-contain translate-y-[1px]"
+                        width={40}
+                        height={40}
                     />
                     <span
-                        className="text-xl font-bold leading-none"
+                        className="text-lg font-medium tracking-wide"
                         style={{ fontFamily: "Arial", color: "#014690" }}
                     >
                         Kinepso
@@ -129,7 +122,7 @@ export default function Header() {
                             <Link
                                 key={href}
                                 href={href}
-                                className={isActive(href)}
+                                className="text-[#474747]"
                             >
                                 {label}
                             </Link>
@@ -138,9 +131,9 @@ export default function Header() {
 
                     <Link
                         href="/contact"
-                        className="rounded-full bg-[#3484DA] px-4 py-2 text-sm font-semibold text-white hover:bg-[#5ea2eb] transition"
+                        className="rounded-[12px] border border-[#C0C0C0] px-4 py-2 text-sm font-medium text-[#474747]"
                     >
-                        Contact
+                        Nous contacter
                     </Link>
                 </div>
 
@@ -154,78 +147,59 @@ export default function Header() {
                 </button>
             </div>
 
-            {/* Menu Mobile - Slide + Blur Overlay */}
             {menuOpen && (
-                <>
-                    {/* OVERLAY FLOUTÉ (ce qui est derrière le menu) */}
-                    <div
-                        className="fixed inset-0 z-40 backdrop-blur-sm bg-white/30 sm:hidden"
-                        onClick={() => setMenuOpen(false)}
-                    />
-
-                    {/* MENU MOBILE */}
-                    <div
-                        ref={menuRef}
-                        className={`fixed top-0 right-0 z-50 h-auto w-4/5 max-w-xs bg-white shadow-lg border-l border-zinc-200 flex flex-col p-6 sm:hidden transform transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] ${
-                            menuOpen
-                                ? "translate-x-0 opacity-100"
-                                : "translate-x-full opacity-0"
-                        }`}
-                    >
-                        {/* Top Section */}
-                        <div className="flex items-center justify-between mb-8">
-                            <div className="flex items-center gap-2">
-                                <Image
-                                    src="/white_transparent.svg"
-                                    alt="Logo Kinepso"
-                                    width={28}
-                                    height={28}
-                                    className="object-contain"
-                                />
-                                <span
-                                    className="text-lg font-bold"
-                                    style={{
-                                        fontFamily: "Arial",
-                                        color: "#3484DA",
-                                    }}
-                                >
-                                    Kinepso
-                                </span>
-                            </div>
-                            <button
-                                onClick={() => setMenuOpen(false)}
-                                className="cursor-pointer"
+                <div
+                    ref={menuRef}
+                    className="fixed inset-0 z-50 bg-white flex flex-col p-6 sm:hidden"
+                >
+                    {/* Top Section */}
+                    <div className="flex items-center justify-between mb-8">
+                        <div className="flex items-center gap-2">
+                            <Image
+                                src="/white_transparent.svg"
+                                alt="Logo Kinepso"
+                                width={45}
+                                height={45}
+                                className="object-contain"
+                            />
+                            <span
+                                className="text-xl font-bold"
+                                style={{
+                                    fontFamily: "Arial",
+                                    color: "#014690",
+                                }}
                             >
-                                <X size={24} />
-                            </button>
+                                Kinepso
+                            </span>
                         </div>
-
-                        {/* Nav Links */}
-                        <nav className="flex flex-col gap-4 text-sm font-medium">
-                            {navLinks.map(({ href, label }) => (
-                                <Link
-                                    key={href}
-                                    href={href}
-                                    onClick={() => setMenuOpen(false)}
-                                    className={isActive(href)}
-                                >
-                                    {label}
-                                </Link>
-                            ))}
-                        </nav>
-
-                        {/* Contact */}
-                        <div className="mt-auto pt-6">
-                            <Link
-                                href="/contact"
-                                onClick={() => setMenuOpen(false)}
-                                className="block bg-[#3484DA] text-white rounded-full px-4 py-2 text-sm font-semibold text-center hover:bg-[#5ea2eb] transition"
-                            >
-                                Contact
-                            </Link>
-                        </div>
+                        <button
+                            onClick={() => setMenuOpen(false)}
+                            className="cursor-pointer"
+                        >
+                            <X size={24} color="#474747" />
+                        </button>
                     </div>
-                </>
+
+                    <nav className="flex flex-col gap-4 text-sm font-medium text-[#474747]">
+                        {navLinks.map(({ href, label }) => (
+                            <Link
+                                key={href}
+                                href={href}
+                                onClick={() => setMenuOpen(false)}
+                            >
+                                {label}
+                            </Link>
+                        ))}
+
+                        <Link
+                            href="/contact"
+                            onClick={() => setMenuOpen(false)}
+                            className="mt-4 block border border-[#C0C0C0] text-[#474747] rounded-full px-4 py-2 text-sm font-semibold text-center"
+                        >
+                            Nous Contacter
+                        </Link>
+                    </nav>
+                </div>
             )}
         </header>
     );

@@ -40,16 +40,17 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <html lang="fr" suppressHydrationWarning>
+        <html lang="fr" className="scrollbar-hide" suppressHydrationWarning>
             <head>
                 <link rel="icon" href="/white_transparent.svg" />
+                <link rel="stylesheet" href="./globals.css" />
             </head>
             <body
                 className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen bg-zinc-50 text-zinc-900`}
             >
                 <div
                     id="app"
-                    className="flex flex-col justify-between min-h-screen transition duration-300"
+                    className="flex flex-col justify-between min-h-screen transition duration-300 overflow-y-scroll scrollbar-hide"
                 >
                     <Header />
                     <div
