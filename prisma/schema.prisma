@@ -1,32 +1,35 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
+// Fichier prisma/schema.prisma
+// Ce fichier définit le schéma de ta base de données utilisée avec Prisma ORM.
+// Il configure la source de données (ici une base MySQL) et décrit les modèles de tables.
+// Ce schéma est utilisé pour générer automatiquement le client Prisma (API d'accès à la base).
 
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
+// Générateur du client Prisma
 generator client {
-  provider = "prisma-client-js"
+  provider = "prisma-client-js" // Utilisation du client JavaScript pour interagir avec la base
 }
 
+// Source de données (la base de données)
 datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
+  provider = "mysql" // Utilisation de MySQL comme moteur de base de données
+  url      = env("DATABASE_URL") // Récupération de l'URL de connexion depuis le fichier .env
 }
 
+// Définition du modèle Projets
 model Projets {
-  id_projets  Int      @id @default(autoincrement())
-  title       String   @db.VarChar(50)
-  description String
-  image_path  String   @db.VarChar(255)
-  slug        String   @unique
-  created_at  DateTime @default(now())
-  category_id Int
+  id_projets  Int      @id @default(autoincrement()) // Clé primaire auto-incrémentée
+  title       String   @db.VarChar(50)               // Titre du projet, texte limité à 50 caractères
+  description String                                 // Description complète du projet
+  image_path  String   @db.VarChar(255)               // Chemin de l'image associée au projet
+  slug        String   @unique                       // Slug unique utilisé pour générer des URLs
+  created_at  DateTime @default(now())                // Date de création, valeur par défaut = maintenant
+  category_id Int                                    // Clé étrangère vers la catégorie
   category    CategoryProjet @relation(fields: [category_id], references: [id_categoriesprojets])
+  // Relation : Chaque projet appartient à une catégorie (clé étrangère category_id liée à id_categoriesprojets)
 }
 
+// Définition du modèle CategoryProjet
 model CategoryProjet {
-  id_categoriesprojets  Int      @id @default(autoincrement())
-  nom_categoriesprojets String   @db.VarChar(50)
-  projets               Projets[] // 1 catégorie → plusieurs projets
+  id_categoriesprojets  Int      @id @default(autoincrement()) // Clé primaire auto-incrémentée
+  nom_categoriesprojets String   @db.VarChar(50)               // Nom de la catégorie (ex: Site Internet, Application mobile)
+  projets               Projets[]                             // Relation inverse : Une catégorie possède plusieurs projets
 }
-

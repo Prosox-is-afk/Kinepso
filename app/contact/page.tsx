@@ -1,9 +1,15 @@
-"use client";
+// Fichier page.tsx - Page de contact permettant aux utilisateurs d'envoyer un message via un formulaire.
+// Utilise une requête POST vers l'API interne pour l'envoi du mail.
 
+"use client"; // Code exécuté uniquement côté client (navigateur)
+
+// Importations nécessaires
 import { useState } from "react";
 import Image from "next/image";
 
+// Composant principal
 export default function ContactPage() {
+    // État du formulaire
     const [form, setForm] = useState({
         nom: "",
         prenom: "",
@@ -11,17 +17,22 @@ export default function ContactPage() {
         telephone: "",
         message: "",
     });
+
+    // État pour afficher un message de succès après l'envoi
     const [success, setSuccess] = useState(false);
 
+    // Gère la saisie utilisateur pour chaque champ
     const handleChange = (
         e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
     ) => {
         setForm({ ...form, [e.target.name]: e.target.value });
     };
 
+    // Gère la soumission du formulaire
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
+        // Prépare les données à envoyer
         const payload = {
             nom: form.nom,
             prenom: form.prenom,
@@ -31,6 +42,7 @@ export default function ContactPage() {
         };
 
         try {
+            // Envoie les données via une requête POST vers l'API interne
             const res = await fetch("/api/contact", {
                 method: "POST",
                 headers: {
@@ -41,6 +53,7 @@ export default function ContactPage() {
 
             const data = await res.json();
 
+            // Si succès, réinitialise le formulaire et affiche un message temporaire
             if (data.success) {
                 setSuccess(true);
                 setForm({
@@ -51,7 +64,7 @@ export default function ContactPage() {
                     message: "",
                 });
 
-                // 🔄 Réinitialiser l'affichage après 4 secondes
+                // Cache le message de succès après 4 secondes
                 setTimeout(() => {
                     setSuccess(false);
                 }, 4000);
@@ -64,7 +77,7 @@ export default function ContactPage() {
     return (
         <main className="min-h-screen flex flex-col justify-center items-center bg-white text-[#014690] px-6 py-20">
             <div className="w-full max-w-6xl grid md:grid-cols-2 gap-12">
-                {/* INFOS AGENCE */}
+                {/* Informations de contact de l'agence */}
                 <div className="space-y-6">
                     <h2 className="text-3xl font-bold mb-4 text-[#014690]">
                         Contactez-nous
@@ -91,8 +104,9 @@ export default function ContactPage() {
                     </div>
                 </div>
 
-                {/* FORMULAIRE */}
+                {/* Formulaire de contact */}
                 <form onSubmit={handleSubmit} className="space-y-6">
+                    {/* Champs du formulaire */}
                     <div className="grid sm:grid-cols-2 gap-4">
                         <input
                             type="text"
@@ -141,7 +155,7 @@ export default function ContactPage() {
                         className="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#3484DA]"
                     />
 
-                    {/* Affichage du feedback */}
+                    {/* Message de confirmation si l'envoi est réussi */}
                     {success && (
                         <div className="flex items-center gap-2 text-green-600 font-medium">
                             <Image
@@ -154,6 +168,7 @@ export default function ContactPage() {
                         </div>
                     )}
 
+                    {/* Bouton d'envoi */}
                     <button
                         type="submit"
                         className="bg-[#3484DA] text-white px-6 py-3 rounded hover:bg-[#2e75c2] transition font-semibold cursor-pointer"
